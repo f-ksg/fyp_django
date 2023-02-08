@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Market Page</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
+.w3-row-padding img {margin-bottom: 12px}
+/* Set the width of the sidebar to 120px */
+.w3-sidebar {width: 120px;background: #455A64;}
+/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
+#main {margin-left: 120px}
+/* Remove margins from "page content" on small screens */
+@media only screen and (max-width: 600px) {#main {margin-left: 0}}
+ul{overflow-y: scroll;
+height: 200px;
+scroll-behavior: smooth}
+
+/* Add a black background color to the top navigation */
+.topnav {
+  background-color: #263238;
+  overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: #11B8C3;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+  background-color: #11B8C3;
+  color: white;
+}
+
+
+.icon-bar {
+  width: 60%;
+  background-color: transparent;
+  overflow: auto;
+  padding-left: 40%;
+}
+
+.icon-bar button {
+  float: left;
+  width: 20%;
+  text-align: center;
+  padding: 12px 0;
+  transition: all 0.3s ease;
+  color: white;
+  font-size: 36px;
+  background-color: transparent;
+  border-radius: 50%;
+}
+
+.icon-bar button:hover, .active {
+  background-color: #263238;
+  color: white;
+}
+</style>
+</head>
+
+
+<body style="background-color: #263238">
+
+<!--Side panel-->
+<div style="background-image: url('https://unsplash.com/photos/fiXLQXAhCfk')"> <!--Background of side panel is not working-->
+  <nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center"style="color:white;">
+  <a href="#user" onclick="openForm()" class="w3-bar-item w3-button w3-padding-large">
+    <i class="fa fa-user w3-xxlarge"></i>
+    <p>User Profile</p>
+  </a>
+  <a href="purchase.html" class="w3-bar-item w3-button w3-padding-large">
+    <i class="fa fa-shopping-cart w3-xxlarge"></i>
+    <p>PURCHASE</p>
+  </a>
+  <a href="#history" class="w3-bar-item w3-button w3-padding-large">
+    <i class="fa fa-history w3-xxlarge"></i>
+    <p>HISTORY</p>
+  </a>
+  <a href="#logout" class="w3-bar-item w3-button w3-padding-large">
+    <i class="fa fa fa-power-off w3-xxlarge"></i>
+  </nav>
+</div>
+<!--End of Side panel-->
+
+
+<!--Create pop up form for user update-->
+<div id="myForm" class="form-popup">
+  <form action="/action_page.php" class="form-container" onsubmit="return submitForm()">
+    <div class="user-profile">
+      <h1><i class="fa fa-user-circle"></i> User profile</h1>
+      <button type="button" class="close-button" style="float: right;" onclick="closeForm()"><i class="fa fa-times"></i></button>
+    </div>
+    <h1> Current Info</h1>
+    <br>
+    <h1>Username:</h1>
+    <input type="text" placeholder="Enter your username" name="username" required>
+    <!--Add retrieval of username from current session logged account to textbox and set to no edit-->
+    <br>
+    <h1>Password:</h1>
+    <input type="password" placeholder="Enter your password" name="psw" required>
+    <!--Add retrieval of password but in asterisk from current session logged account to textbox and set to no edit-->
+    <br>
+    <h1>Email:</h1>
+    <input type="email" placeholder="Enter your email" name="email" required>
+    <!--Add retrieval of email from current session logged account to textbox and set to no edit-->
+    <hr>
+    <h1>New Info</h1>
+    <br>
+    <h1>Username:</h1>
+    <input type="text" placeholder="Enter your new username" name="newusername" required>
+    <!--username-->
+    <br>
+    <h1>Password:</h1>
+    <input type="password" placeholder="Enter your new password" name="newpsw" required>
+    <!--pasword-->
+    <br>
+    <h1>Email:</h1>
+    <input type="email" placeholder="Enter your new email" name="newemail" required>
+    <!--email-->
+    <br>
+    <button type="submit" class="btn" onclick="submitForm()">Submit</button>
+    <!-- call submitForm() onclick submit button -->
+  </form>
+</div>
+<!-- Add some styling to the form -->
+<style>
+  .form-popup {
+    display: none;
+    position: fixed;
+    width:50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #455A64;
+    border: 1px solid #d3d3d3;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    padding: 20px;
+  }
+  
+  .form-container h1 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+  
+  .form-container hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #ccc;
+  }
+  
+  .form-container .btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 30%;
+    margin-bottom: 10px;
+    opacity: 0.8;
+  }
+  
+  .form-container .cancel {
+    background-color: red;
+  }
+  
+  .form-container .btn:hover, .open-button:hover {
+    opacity: 1;
+  }
+
+  .form-container input[type=text],
+.form-container input[type=password],
+.form-container input[type=email] {
+  display: inline-block;
+  width: 35%;
+  margin-left: 10%;
+}
+
+.form-container h1 {
+  display: inline-block;
+  width: 15%;
+  text-align: right;
+}
+  </style>
+
+
+<script>
+  function openForm() 
+  {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+
+function submitForm() 
+{
+  closeForm();
+  alert("User info updated"); //filler code
+  //Retrieve username, password and email from new info div
+  //Compare current username, password and email with new information
+  //if difference, dialogue show which is the difference and with a confirmation and cancel button
+  //on confirmation, submit new data to database
+  //wait for database answer
+  //if database answer = ok, pop up window shows "Credentials updated"
+  //else print errorstack with exit button
+  return false; // prevents the form from being submitted
+}
+</script>
+
+<!-- Navbar on small screens (Hidden on medium and large screens) -->
+<div class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
+  <div class="w3-bar w3-blue-grey w3-opacity w3-hover-opacity-off w3-center w3-small">
+    <a href="#user" class="w3-bar-item w3-button" style="width:25% !important;">USER</a>
+    <a href="purchase.html" class="w3-bar-item w3-button" style="width:25% !important">PURCHASE</a>
+    <a href="#history" class="w3-bar-item w3-button" style="width:25% !important">HISTORY</a>
+    <a href="logout" class ="w3-bar-item w3-button" style ="width:25% !important"></a>
+  </div>
+</div>
+<!--End of side panel-->
+
+
+<!-- Page Content -->
+<div class="w3-padding-large" id="main">
+  <!-- Header/Home -->
+  <div>
+  <header class="w3-container w3-padding-32 w3-center" id="home" style="background-color: #263238;">
+    <!-- <img src="https://images.freecreatives.com/wp-content/uploads/2016/08/Classy-Financial-Black-Crown-Logo.jpg" alt="logo" class="w3-image" width="250" height="250" style="float: left;"> -->
+    <!-- Above img src is for company or website logo-->
+    <h1 class="w3-jumbo" style="text-align: center; color:white;">Markets
+    <a href="#help" class="w3-bar-item w3-button w3-padding-large ">
+        <i class="fa fa-question-circle w3-xxlarge" style="float:right;" title="Help"></i>
+    </a>
+    <!-- <button class="w3-bar-item w3-button w3-padding-large w3-hover-black" ID="help" ><i class="fa fa-question-circle w3-xxlarge"></i></button> -->
+    <a href="#options" class="w3-bar-item w3-button w3-padding-large ">
+        <i class="fa fa-bars w3-xxlarge" style="float:right;" title="Options"></i>
+    </a></h1>
+  </header>
+    </div>
+
+  <!-- Trading view -->
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+  <!-- Create a container element for the chart -->
+  <div id="tv-chart-container">
+  <!-- Use the Embed API to create the chart -->
+  </div>
+  <div class="w3-container w3-center">
+    <p><button class="w3-button w3-white w3-border w3-round-large">Top 5: Profile</button></p>
+    <!--
+    Top 5: Profile
+    Retrieve current user portfolio from database and assign buttons accordingly with button id profile-1..2..3..
+    Ask what is profile and current difference
+    -->
+    <p>
+      <button class="w3-button w3-white w3-border w3-round-large">Top 5: Current</button>
+      <!--
+      Top 5: Current
+      Retrieve current user portfolio from database and assign buttons accordingly with button id profile-1..2..3..
+      Ask what is profile and current difference
+      -->
+    </p>
+  </div>
+
+  <div class="icon-bar" id="icon-bar">
+    <!--
+    Need to edit the button styles to make it look nicer, currently oval shaped with no highlights on hover/current selection
+    -->
+    <button class="btn active" ID="profile-1" ><i class="fa fa-circle-o"></i></button>
+    <button class="btn" id="profile-2" ><i class="fa fa-circle-o"></i></a>
+    <button class="btn"id="profile-3"><i class="fa fa-circle-o"></i></a>
+    <button class="btn"id="profile-4"><i class="fa fa-circle-o"></i></a>
+    <button class="btn"id="profile-5"><i class="fa fa-circle-o"></i></a>
+  </div>
+  
+   <!--
+    All trading view widget to be replaced with caleb's back end prediction algo
+    In order to display chart, may have to use Chart.js or depending on framework
+    --> 
+  <script>
+    new TradingView.widget(
+      {
+        "width": 1200,
+        "height": 600,
+        "symbol": "AAPL",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "Dark",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "allow_symbol_change": true,
+        "container_id": "tv-chart-container"
+      }
+    );
+    
+    //Code for current active button
+    var buttonContainer = document.getElementById("icon-bar");
+    var btns = buttonContainer.getElementsByClassName("btn");
+
+    for (var i = 0; i < btns.length; i++) 
+      {
+      btns[i].addEventListener("click", function() 
+          {
+              var current = document.getElementsByClassName("active");
+              // If there's no active class
+              if (current.length > 0) 
+              {
+              current[0].className = current[0].className.replace(" active", "");
+              }
+              // Add the active class to the current/clicked button
+              this.className += " active";
+          });
+      }
+    //end code for current active button
+
+    //hard coded chart generation with trading view widget, to be replaced with actual prediction algo chart
+    document.getElementById('profile-1').addEventListener('click', function()
+    {
+      new TradingView.widget(
+      {
+        "width": 1200,
+        "height": 600,
+        "symbol": "AAPL",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "Dark",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "allow_symbol_change": true,
+        "container_id": "tv-chart-container"
+      }
+    );
+    });
+    document.getElementById('profile-2').addEventListener('click', function()
+    {
+      new TradingView.widget(
+      {
+        "width": 1200,
+        "height": 600,
+        "symbol": "AMZN",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "Dark",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "allow_symbol_change": true,
+        "container_id": "tv-chart-container"
+      }
+    );
+    });
+    document.getElementById('profile-3').addEventListener('click', function()
+    {
+      new TradingView.widget(
+      {
+        "width": 1200,
+        "height": 600,
+        "symbol": "TSLA",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "Dark",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "allow_symbol_change": true,
+        "container_id": "tv-chart-container"
+      }
+    );
+    });
+    document.getElementById('profile-4').addEventListener('click', function()
+    {
+      new TradingView.widget(
+      {
+        "width": 1200,
+        "height": 600,
+        "symbol": "META",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "Dark",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "allow_symbol_change": true,
+        "container_id": "tv-chart-container"
+      }
+    );
+    });
+    document.getElementById('profile-5').addEventListener('click', function()
+    {
+      new TradingView.widget(
+      {
+        "width": 1200,
+        "height": 600,
+        "symbol": "NVDA",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "Dark",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "allow_symbol_change": true,
+        "container_id": "tv-chart-container"
+      }
+    );
+    });
+    // end of hard coded chart generation with trading view widget, to be replaced with actual prediction algo chart
+
+
+
+    </script>
+    </div>
+  
+  <!-- News Section -->
+  <div class="w3-padding-64 w3-content" id="news">
+    <h2 class="w3-text-light-grey">Latest news</h2>
+    <hr style="width:200px" class="w3-opacity">
+    <div class="news-feed"> 
+        <ul style="color:white;">
+        <!--Change the scrollbar looks so it looks seamless scrolling -->
+        </ul>
+    <script>
+        
+        // Fetch news yahoo finance with cors
+        /*
+        Important:
+        Go to https://cors-anywhere.herokuapp.com/corsdemo and click connect to demo server else retrieval of rssfeed news will not work
+        On actual deployment:
+        Have to find a workaround this issue if website is going live
+        */
+        
+        fetch('https://cors-anywhere.herokuapp.com/http://finance.yahoo.com/rss/topfinstories')
+            .then(response => response.text())
+            .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
+            .then(data => {
+            // Loop through each item in the RSS feed
+            data.querySelectorAll('item').forEach(item => {
+                // Extract the news headline and link
+                const title = item.querySelector('title').innerHTML;
+                const link = item.querySelector('link').innerHTML;
+                const thumbnail = item.querySelector('media\\:content, content').getAttribute('url');
+
+                // Create a new list item for the headline
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.innerHTML = title;
+                a.href = link;
+                
+                
+                const img = document.createElement('img');
+                img.src = thumbnail;
+                img.style.width = '100px';
+                img.style.height = '100px';
+                li.appendChild(img);
+                li.appendChild(a);
+               
+                // Add the list item to the news feed
+                document.querySelector('.news-feed ul').appendChild(li);
+            });
+            });
+    </script>
+      </div>
+  </div>
+  <!-- End news section -->
+
+    <!-- Footer icons for whatever purposes -->
+  <footer class="w3-content w3-padding-64 w3-text-grey w3-xlarge">
+    <!-- <i class="fa fa-facebook-official w3-hover-opacity"></i>
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <i class="fa fa-twitter w3-hover-opacity"></i> -->
+  </footer>
+  <!-- End footer -->
+
+<!-- END PAGE CONTENT -->
+</div>
+
+</body>
+</html>

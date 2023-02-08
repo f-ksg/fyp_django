@@ -7,9 +7,9 @@ var ctx = document.getElementById("myPieChart");
 var myPieChart = new Chart(ctx, {
   type: 'pie',
   data: {
-    labels: ["Blue", "Red", "Yellow", "Green"],
+    labels: ["Mapletree Logistics Trust", "Sembcorp Marine Ltd", "UMS Holdings Limited", "Genting Singapore Limited"],
     datasets: [{
-      data: [12.21, 15.58, 11.25, 8.32],
+      data: [433060, 320800, 170750, 86000],
       backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745'],
     }],
   },
